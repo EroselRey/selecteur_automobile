@@ -688,6 +688,26 @@
             box-shadow: 0 12px 24px rgba(239, 68, 68, 0.4);
         }
 
+        .tools-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .tools-table th, .tools-table td {
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 8px;
+        }
+
+        .tools-table th {
+            background: rgba(148, 163, 184, 0.3);
+        }
+
+        .tools-table tr:nth-child(even) {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .content {
@@ -750,6 +770,8 @@
                 <h1>Sélecteur de Compresseurs</h1>
                 <p>Trouvez le compresseur parfait pour votre activité automobile</p>
                 <p><a href="2020_guide_auto_wco%20v2.pdf" target="_blank" style="color:#ffc107;text-decoration:underline;">📖 Guide des outillages pneumatiques</a></p>
+                <button class="btn btn-secondary" onclick="toggleToolTable()">Afficher le tableau des outillages</button>
+                <div id="toolTableContainer" style="display:none;"></div>
             </div>
 
             <div class="content">
@@ -893,6 +915,51 @@
                 { name: 'Démonte pneus PL', consumption: 1.6, pressure: 12, factor: 0.2 },
                 { name: 'Sableuse 4 mm', consumption: 15.0, pressure: 8, factor: 0.5 }
             ];
+        }
+
+        function renderToolTable() {
+            const container = document.getElementById('toolTableContainer');
+            container.innerHTML = '';
+
+            const table = document.createElement('table');
+            table.className = 'tools-table';
+
+            const thead = document.createElement('thead');
+            thead.innerHTML = `
+                <tr>
+                    <th>Outils</th>
+                    <th>Débit m³/h</th>
+                    <th>Pression (bar)</th>
+                    <th>Facteur de service</th>
+                    <th>Débit moyen m³/h</th>
+                </tr>`;
+            table.appendChild(thead);
+
+            const tbody = document.createElement('tbody');
+            getPneumaticTools().forEach(t => {
+                const tr = document.createElement('tr');
+                const debit = (t.consumption / t.factor).toFixed(1);
+                tr.innerHTML = `
+                    <td>${t.name}</td>
+                    <td>${debit}</td>
+                    <td>${t.pressure}</td>
+                    <td>${t.factor}</td>
+                    <td>${t.consumption}</td>`;
+                tbody.appendChild(tr);
+            });
+            table.appendChild(tbody);
+
+            container.appendChild(table);
+        }
+
+        function toggleToolTable() {
+            const container = document.getElementById('toolTableContainer');
+            if (container.style.display === 'none' || container.style.display === '') {
+                renderToolTable();
+                container.style.display = 'block';
+            } else {
+                container.style.display = 'none';
+            }
         }
 
         // Fonction pour évaluer la compatibilité d'un outil avec un compresseur
