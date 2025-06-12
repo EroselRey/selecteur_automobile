@@ -1350,3 +1350,152 @@
                                 'Qualité d\'air compatible peinture à l\'eau',
                                 'Robustesse, longévité, fiabilité extrême',
                                 'Utilisation continue industrielle',
+                                'Solution intégrée, compacte, prête à l\'utilisation'
+                            ],
+                            usage: 'UTILISATION CONTINUE',
+                            airQuality: 'QUALITÉ D\'AIR SEC ET DÉSHUILÉ',
+                            needs: 'Besoin : 30 à 40 m³/h - Pression : 12 à 15 bar',
+                            power: 7.5
+                        }
+                    ]
+                }
+            };
+        }
+
+        // Interaction logic
+        let selectedActivity = '';
+        let selectedOperators = '';
+
+        function selectOption(element, type) {
+            const container = element.parentElement;
+            Array.from(container.children).forEach(el => el.classList.remove('selected'));
+            element.classList.add('selected');
+
+            if (type === 'activity') {
+                selectedActivity = element.getAttribute('data-value');
+                document.getElementById('nextBtn1').disabled = false;
+            } else if (type === 'operators') {
+                selectedOperators = element.getAttribute('data-value');
+                document.getElementById('nextBtn2').disabled = false;
+            }
+        }
+
+        function nextQuestion() {
+            document.getElementById('question1').classList.remove('active');
+            updateOperatorOptions();
+            document.getElementById('question2').classList.add('active');
+        }
+
+        function previousQuestion() {
+            document.getElementById('question2').classList.remove('active');
+            document.getElementById('question1').classList.add('active');
+            document.getElementById('nextBtn2').disabled = true;
+        }
+
+        function updateOperatorOptions() {
+            const container = document.getElementById('operatorOptions');
+            const redirect = document.getElementById('autoRedirect');
+            container.innerHTML = '';
+            redirect.style.display = 'none';
+
+            const data = getCompressorData()[selectedActivity];
+            if (!data) return;
+
+            const ranges = Object.keys(data);
+            if (ranges.length === 1) {
+                selectedOperators = ranges[0];
+                document.getElementById('nextBtn2').disabled = false;
+                redirect.style.display = 'block';
+            } else {
+                ranges.forEach(range => {
+                    const div = document.createElement('div');
+                    div.className = 'option';
+                    div.setAttribute('data-value', range);
+                    div.onclick = () => selectOption(div, 'operators');
+                    div.innerHTML = `<div class="option-text">${range.replace('-', ' à ')}</div>`;
+                    container.appendChild(div);
+                });
+            }
+        }
+
+        function showResults() {
+            const data = getCompressorData();
+            const compressors = data[selectedActivity]?.[selectedOperators] || [];
+            const container = document.getElementById('recommendedCompressors');
+            container.innerHTML = '';
+
+            compressors.forEach(comp => {
+                const card = document.createElement('div');
+                card.className = 'compressor-card';
+
+                const name = document.createElement('div');
+                name.className = 'compressor-name';
+                name.textContent = comp.name;
+                card.appendChild(name);
+
+                const type = document.createElement('div');
+                type.className = 'compressor-type';
+                type.textContent = comp.type;
+                card.appendChild(type);
+
+                const usageTags = document.createElement('div');
+                usageTags.className = 'usage-tags';
+                const usageTag = document.createElement('span');
+                usageTag.className = 'usage-tag ' + (comp.usage.includes('CONTINUE') ? 'continuous' : 'intermittent');
+                usageTag.textContent = comp.usage;
+                usageTags.appendChild(usageTag);
+                const qualityTag = document.createElement('span');
+                qualityTag.className = 'usage-tag quality';
+                qualityTag.textContent = comp.airQuality;
+                usageTags.appendChild(qualityTag);
+                card.appendChild(usageTags);
+
+                const needs = document.createElement('div');
+                needs.className = 'compressor-needs';
+                needs.textContent = comp.needs;
+                card.appendChild(needs);
+
+                const specsDiv = document.createElement('div');
+                specsDiv.className = 'compressor-specs';
+                Object.entries(comp.specs).forEach(([k,v]) => {
+                    const spec = document.createElement('div');
+                    spec.className = 'spec';
+                    spec.innerHTML = `<strong>${k}</strong>: ${v}`;
+                    specsDiv.appendChild(spec);
+                });
+                card.appendChild(specsDiv);
+
+                const adv = document.createElement('div');
+                adv.className = 'advantages';
+                const advTitle = document.createElement('h4');
+                advTitle.textContent = 'Avantages';
+                adv.appendChild(advTitle);
+                const advList = document.createElement('ul');
+                comp.advantages.forEach(a => {
+                    const li = document.createElement('li');
+                    li.textContent = a;
+                    advList.appendChild(li);
+                });
+                adv.appendChild(advList);
+                card.appendChild(adv);
+
+                container.appendChild(card);
+            });
+
+            document.getElementById('question1').classList.remove('active');
+            document.getElementById('question2').classList.remove('active');
+            document.getElementById('results').classList.add('active');
+        }
+
+        function restart() {
+            selectedActivity = '';
+            selectedOperators = '';
+            document.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+            document.getElementById('nextBtn1').disabled = true;
+            document.getElementById('nextBtn2').disabled = true;
+            document.getElementById('results').classList.remove('active');
+            document.getElementById('question1').classList.add('active');
+        }
+    </script>
+</body>
+</html>
