@@ -573,15 +573,15 @@
         }
 
         .legend-color.green {
-            background: rgba(34, 197, 94, 0.6);
+            background: #c6efce;
         }
 
         .legend-color.yellow {
-            background: rgba(255, 193, 7, 0.6);
+            background: #fff2cc;
         }
 
         .legend-color.red {
-            background: rgba(239, 68, 68, 0.6);
+            background: #ffc7ce;
         }
 
         .usage-tags {
@@ -708,6 +708,49 @@
             background: rgba(255, 255, 255, 0.05);
         }
 
+        /* Dedicated tool page */
+        .tool-page {
+            display: none;
+            padding: 40px;
+            color: white;
+            text-align: center;
+        }
+
+        .compat-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .compat-table th, .compat-table td {
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 8px;
+        }
+
+        .compat-table th {
+            background: rgba(148, 163, 184, 0.3);
+        }
+
+        .compat-table tr:nth-child(even) {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .compat-cell.compatible {
+            background: #c6efce;
+            color: #006100;
+        }
+
+        .compat-cell.conditional {
+            background: #fff2cc;
+            color: #c65911;
+        }
+
+        .compat-cell.not-compatible {
+            background: #ffc7ce;
+            color: #9c0006;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .content {
@@ -769,9 +812,18 @@
                 <div class="logo">Worthington Creyssensac</div>
                 <h1>Sélecteur de Compresseurs</h1>
                 <p>Trouvez le compresseur parfait pour votre activité automobile</p>
-                <p><a href="2020_guide_auto_wco%20v2.pdf" target="_blank" style="color:#ffc107;text-decoration:underline;">📖 Guide des outillages pneumatiques</a></p>
-                <button class="btn btn-secondary" onclick="toggleToolTable()">Afficher le tableau des outillages</button>
-                <div id="toolTableContainer" style="display:none;"></div>
+                <button class="btn btn-secondary" onclick="showToolPage()">Afficher le tableau des outillages</button>
+            </div>
+
+            <div id="toolPage" class="tool-page">
+                <h2>Outillages pneumatiques</h2>
+                <div class="tools-legend">
+                    <div class="legend-item"><span class="legend-color green"></span> Compatible</div>
+                    <div class="legend-item"><span class="legend-color yellow"></span> Compatible sous conditions</div>
+                    <div class="legend-item"><span class="legend-color red"></span> Non compatible</div>
+                </div>
+                <div id="compatTableContainer"></div>
+                <button class="btn btn-secondary" onclick="hideToolPage()" style="margin-top:20px;">Retour</button>
             </div>
 
             <div class="content">
@@ -917,34 +969,32 @@
             ];
         }
 
-        function renderToolTable() {
-            const container = document.getElementById('toolTableContainer');
+        function renderCompatibilityTable() {
+            const container = document.getElementById('compatTableContainer');
             container.innerHTML = '';
 
+            const powers = [2, 3, 4, 5.5, 7.5, 10];
+
             const table = document.createElement('table');
-            table.className = 'tools-table';
+            table.className = 'compat-table';
 
             const thead = document.createElement('thead');
-            thead.innerHTML = `
-                <tr>
-                    <th>Outils</th>
-                    <th>Débit m³/h</th>
-                    <th>Pression (bar)</th>
-                    <th>Facteur de service</th>
-                    <th>Débit moyen m³/h</th>
-                </tr>`;
+            let headRow = '<tr><th>Outils</th><th>Débit m³/h</th><th>Pression (bar)</th><th>Facteur</th><th>Débit moyen m³/h</th>';
+            powers.forEach(p => headRow += `<th>${p.toString().replace('.', ',')} ch</th>`);
+            headRow += '</tr>';
+            thead.innerHTML = headRow;
             table.appendChild(thead);
 
             const tbody = document.createElement('tbody');
             getPneumaticTools().forEach(t => {
                 const tr = document.createElement('tr');
                 const debit = (t.consumption / t.factor).toFixed(1);
-                tr.innerHTML = `
-                    <td>${t.name}</td>
-                    <td>${debit}</td>
-                    <td>${t.pressure}</td>
-                    <td>${t.factor}</td>
-                    <td>${t.consumption}</td>`;
+                let row = `<td>${t.name}</td><td>${debit}</td><td>${t.pressure}</td><td>${t.factor}</td><td>${t.consumption}</td>`;
+                powers.forEach(p => {
+                    const compat = evaluateToolCompatibility(t, {power: p, specs: {'Pression': 10}});
+                    row += `<td class="compat-cell ${compat}"></td>`;
+                });
+                tr.innerHTML = row;
                 tbody.appendChild(tr);
             });
             table.appendChild(tbody);
@@ -952,14 +1002,15 @@
             container.appendChild(table);
         }
 
-        function toggleToolTable() {
-            const container = document.getElementById('toolTableContainer');
-            if (container.style.display === 'none' || container.style.display === '') {
-                renderToolTable();
-                container.style.display = 'block';
-            } else {
-                container.style.display = 'none';
-            }
+        function showToolPage() {
+            renderCompatibilityTable();
+            document.getElementById('toolPage').style.display = 'block';
+            document.querySelector('.content').style.display = 'none';
+        }
+
+        function hideToolPage() {
+            document.getElementById('toolPage').style.display = 'none';
+            document.querySelector('.content').style.display = 'block';
         }
 
         // Fonction pour évaluer la compatibilité d'un outil avec un compresseur
