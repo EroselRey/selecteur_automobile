@@ -1,0 +1,1352 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sélecteur de Compresseurs Automobile - Worthington Creyssensac</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            min-height: 100vh;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            background-attachment: fixed;
+            overflow-x: hidden;
+        }
+
+        .page-wrapper {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 
+                0 32px 64px rgba(0, 0, 0, 0.15),
+                0 8px 16px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
+        }
+
+        .header {
+            background: linear-gradient(135deg, rgba(255,255,255,0.15), rgba(255,255,255,0.05));
+            backdrop-filter: blur(10px);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            color: #ff4757;
+            font-weight: 700;
+            font-size: 1.4em;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 2px 8px rgba(0,0,0,0.3));
+        }
+
+        .logo::before {
+            content: '🔧';
+            font-size: 1.2em;
+            animation: floatRotate 4s ease-in-out infinite;
+        }
+
+        @keyframes floatRotate {
+            0%, 100% { transform: rotate(0deg) translateY(0px); }
+            25% { transform: rotate(90deg) translateY(-3px); }
+            50% { transform: rotate(180deg) translateY(0px); }
+            75% { transform: rotate(270deg) translateY(3px); }
+        }
+
+        .header h1 {
+            font-size: 2.4em;
+            margin-bottom: 12px;
+            font-weight: 700;
+            text-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            background: linear-gradient(135deg, #fff, #f0f0f0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.95;
+            font-weight: 400;
+            text-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        }
+
+        .content {
+            padding: 50px 40px;
+        }
+
+        .steps-indicator {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .steps-indicator::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-50%);
+            z-index: 1;
+        }
+
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .step-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 0.9em;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-bottom: 8px;
+        }
+
+        .step.active .step-circle {
+            background: rgba(255, 71, 87, 0.9);
+            color: white;
+            box-shadow: 0 8px 20px rgba(255, 71, 87, 0.4);
+            transform: scale(1.1);
+        }
+
+        .step.completed .step-circle {
+            background: rgba(46, 204, 113, 0.9);
+            border-color: rgba(46, 204, 113, 1);
+            box-shadow: 0 8px 20px rgba(46, 204, 113, 0.4);
+        }
+
+        .step.completed .step-circle::before {
+            content: '✓';
+            font-size: 1.1em;
+        }
+
+        .step-text {
+            color: white;
+            font-size: 0.85em;
+            font-weight: 500;
+            text-align: center;
+            opacity: 0.8;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .step.active .step-text {
+            opacity: 1;
+            font-weight: 600;
+        }
+
+        .question-container {
+            display: none;
+            animation: slideIn 0.6s ease-out;
+        }
+
+        .question-container.active {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .question {
+            font-size: 1.8em;
+            margin-bottom: 40px;
+            color: white;
+            font-weight: 600;
+            text-align: center;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+
+        .options {
+            display: grid;
+            gap: 16px;
+            margin-bottom: 40px;
+        }
+
+        .option {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            padding: 24px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .option::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.6s;
+        }
+
+        .option:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 16px 32px rgba(0, 0, 0, 0.2);
+        }
+
+        .option:hover::before {
+            left: 100%;
+        }
+
+        .option.selected {
+            background: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.6);
+            transform: translateY(-2px);
+            box-shadow: 0 16px 32px rgba(0, 0, 0, 0.25);
+        }
+
+        .option-text {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 8px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .option-details {
+            font-size: 0.95em;
+            color: rgba(255, 255, 255, 0.8);
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 40px;
+            gap: 20px;
+        }
+
+        .btn {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(15px);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 16px 32px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn:disabled {
+            background: rgba(255, 255, 255, 0.1);
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .btn:disabled::before {
+            display: none;
+        }
+
+        .btn-primary {
+            background: rgba(255, 71, 87, 0.8);
+            border-color: rgba(255, 71, 87, 1);
+            box-shadow: 0 8px 20px rgba(255, 71, 87, 0.25);
+        }
+
+        .btn-primary:hover {
+            background: rgba(255, 71, 87, 0.9);
+            box-shadow: 0 12px 24px rgba(255, 71, 87, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(148, 163, 184, 0.3);
+            border-color: rgba(148, 163, 184, 0.5);
+        }
+
+        .auto-redirect {
+            background: rgba(255, 193, 7, 0.15);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 193, 7, 0.3);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .auto-redirect h3 {
+            color: #ffc107;
+            margin-bottom: 12px;
+            font-size: 1.2em;
+            font-weight: 600;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .auto-redirect p {
+            color: rgba(255, 193, 7, 0.9);
+            margin-bottom: 16px;
+            line-height: 1.5;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+        }
+
+        .result {
+            display: none;
+            animation: slideIn 0.6s ease-out;
+        }
+
+        .result.active {
+            display: block;
+        }
+
+        .result h2 {
+            color: white;
+            margin-bottom: 30px;
+            font-size: 2.2em;
+            text-align: center;
+            font-weight: 700;
+            text-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+
+        .compressor-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 16px 32px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            min-width: 0;
+            box-sizing: border-box;
+        }
+
+        .compressor-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), transparent);
+            border-radius: 0 20px 0 100px;
+        }
+
+        .compressor-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 24px 48px rgba(0,0,0,0.15);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .compressor-name,
+        .compressor-needs {
+            max-width: 100%;
+            overflow-wrap: break-word;
+            word-break: break-word;
+            hyphens: auto;
+            min-width: 0;
+        }
+
+        .compressor-name {
+            font-size: 1.5em;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 6px rgba(0,0,0,0.3);
+        }
+
+        .compressor-type {
+            color: rgba(255, 255, 255, 0.8);
+            font-style: italic;
+            margin-bottom: 15px;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+
+        .compressor-needs {
+            color: #ffc107;
+            font-weight: bold;
+            margin: 10px 0;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .compressor-specs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+            min-width: 0;
+        }
+
+        .spec {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 0.95em;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+            overflow-wrap: break-word;
+            word-break: break-word;
+            min-width: 0;
+        }
+
+        .spec strong {
+            color: #ffc107;
+            font-weight: 600;
+        }
+
+        .tools-compatibility {
+            margin-top: 20px;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .tools-compatibility h4 {
+            color: #ffc107;
+            margin-bottom: 15px;
+            font-weight: 600;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .tool-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-size: 0.85em;
+            font-weight: 500;
+            border: 1px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .tool-item.compatible {
+            background: rgba(34, 197, 94, 0.25);
+            color: #86efac;
+            border-color: rgba(34, 197, 94, 0.4);
+        }
+
+        .tool-item.conditional {
+            background: rgba(255, 193, 7, 0.25);
+            color: #fde047;
+            border-color: rgba(255, 193, 7, 0.4);
+        }
+
+        .tool-item.not-compatible {
+            background: rgba(239, 68, 68, 0.25);
+            color: #fca5a5;
+            border-color: rgba(239, 68, 68, 0.4);
+        }
+
+        .tool-consumption {
+            font-size: 0.75em;
+            opacity: 0.8;
+            font-weight: 400;
+        }
+
+        .tools-legend {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.8em;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 3px;
+        }
+
+        .legend-color.green {
+            background: rgba(34, 197, 94, 0.6);
+        }
+
+        .legend-color.yellow {
+            background: rgba(255, 193, 7, 0.6);
+        }
+
+        .legend-color.red {
+            background: rgba(239, 68, 68, 0.6);
+        }
+
+        .usage-tags {
+            display: flex;
+            gap: 15px;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+
+        .usage-tag {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+        }
+
+        .usage-tag.intermittent {
+            background: rgba(59, 130, 246, 0.3);
+            color: #93c5fd;
+            border: 1px solid rgba(59, 130, 246, 0.5);
+        }
+
+        .usage-tag.continuous {
+            background: rgba(34, 197, 94, 0.3);
+            color: #86efac;
+            border: 1px solid rgba(34, 197, 94, 0.5);
+        }
+
+        .usage-tag.quality {
+            background: rgba(168, 85, 247, 0.3);
+            color: #c4b5fd;
+            border: 1px solid rgba(168, 85, 247, 0.5);
+        }
+
+        .advantages {
+            margin-top: 15px;
+        }
+
+        .advantages h4 {
+            color: #10b981;
+            margin-bottom: 10px;
+            font-weight: 600;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .advantages ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .advantages li {
+            padding: 5px 0;
+            padding-left: 20px;
+            position: relative;
+            color: rgba(255, 255, 255, 0.9);
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+            overflow-wrap: break-word;
+            word-break: break-word;
+            hyphens: auto;
+            min-width: 0;
+        }
+
+        .advantages li:before {
+            content: "✓";
+            color: #10b981;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        .contact-info {
+            background: rgba(30, 60, 114, 0.3);
+            backdrop-filter: blur(15px);
+            color: white;
+            padding: 24px;
+            border-radius: 16px;
+            margin-top: 30px;
+            text-align: center;
+            border: 1px solid rgba(30, 60, 114, 0.4);
+        }
+
+        .contact-info h3 {
+            margin-bottom: 15px;
+            font-size: 1.3em;
+            color: #ff4757;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .contact-info p {
+            margin: 8px 0;
+            font-weight: 500;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+        }
+
+        .restart-btn {
+            background: rgba(239, 68, 68, 0.8);
+            border-color: rgba(239, 68, 68, 1);
+            margin-top: 20px;
+        }
+
+        .restart-btn:hover {
+            background: rgba(239, 68, 68, 0.9);
+            box-shadow: 0 12px 24px rgba(239, 68, 68, 0.4);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .content {
+                padding: 30px 20px;
+            }
+            
+            .header {
+                padding: 30px 20px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .question {
+                font-size: 1.5em;
+            }
+            
+            .options {
+                gap: 12px;
+            }
+            
+            .option {
+                padding: 20px;
+            }
+            
+            .compressor-specs {
+                grid-template-columns: 1fr;
+            }
+            
+            .navigation {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .btn {
+                width: 100%;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .compressor-card {
+                padding: 18px;
+            }
+            .compressor-name {
+                font-size: 1.1em;
+            }
+            .compressor-specs {
+                grid-template-columns: 1fr !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-wrapper">
+        <div class="container">
+            <div class="header">
+                <div class="logo">Worthington Creyssensac</div>
+                <h1>Sélecteur de Compresseurs</h1>
+                <p>Trouvez le compresseur parfait pour votre activité automobile</p>
+            </div>
+
+            <div class="content">
+                <!-- Question 1: Type d'activité -->
+                <div class="question-container active" id="question1">
+                    <div class="steps-indicator">
+                        <div class="step active">
+                            <div class="step-circle">1</div>
+                            <div class="step-text">Type d'activité</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-circle">2</div>
+                            <div class="step-text">Nombre d'opérateurs</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-circle">3</div>
+                            <div class="step-text">Recommandations</div>
+                        </div>
+                    </div>
+
+                    <div class="question">Quel est votre type d'activité ?</div>
+                    <div class="options">
+                        <div class="option" data-value="controle" onclick="selectOption(this, 'activity')">
+                            <div class="option-text">Centre de contrôle</div>
+                            <div class="option-details">Contrôle technique, inspections</div>
+                        </div>
+                        <div class="option" data-value="garage-vl" onclick="selectOption(this, 'activity')">
+                            <div class="option-text">Garage mécanique VL</div>
+                            <div class="option-details">Véhicules légers, réparations mécaniques</div>
+                        </div>
+                        <div class="option" data-value="garage-vl-carrosserie" onclick="selectOption(this, 'activity')">
+                            <div class="option-text">Garage VL + Carrosserie</div>
+                            <div class="option-details">Mécanique et travaux de carrosserie/peinture</div>
+                        </div>
+                        <div class="option" data-value="garage-pl" onclick="selectOption(this, 'activity')">
+                            <div class="option-text">Garage mécanique PL</div>
+                            <div class="option-details">Poids lourds, véhicules industriels</div>
+                        </div>
+                        <div class="option" data-value="pneumaticiens-vl" onclick="selectOption(this, 'activity')">
+                            <div class="option-text">Pneumaticiens VL</div>
+                            <div class="option-details">Montage/réparation pneus véhicules légers</div>
+                        </div>
+                        <div class="option" data-value="pneumaticiens-pl" onclick="selectOption(this, 'activity')">
+                            <div class="option-text">Pneumaticiens PL</div>
+                            <div class="option-details">Montage/réparation pneus poids lourds</div>
+                        </div>
+                    </div>
+                    <div class="navigation">
+                        <div></div>
+                        <button class="btn btn-primary" onclick="nextQuestion()" id="nextBtn1" disabled>Suivant</button>
+                    </div>
+                </div>
+
+                <!-- Question 2: Nombre d'opérateurs -->
+                <div class="question-container" id="question2">
+                    <div class="steps-indicator">
+                        <div class="step completed">
+                            <div class="step-circle"></div>
+                            <div class="step-text">Type d'activité</div>
+                        </div>
+                        <div class="step active">
+                            <div class="step-circle">2</div>
+                            <div class="step-text">Nombre d'opérateurs</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-circle">3</div>
+                            <div class="step-text">Recommandations</div>
+                        </div>
+                    </div>
+
+                    <div class="question">Combien d'opérateurs travaillent simultanément ?</div>
+                    <div id="autoRedirect" class="auto-redirect" style="display: none;">
+                        <h3>🎯 Configuration détectée automatiquement</h3>
+                        <p>Pour cette activité, nous passons directement aux recommandations.</p>
+                        <button class="btn btn-primary" onclick="showResults()">Voir les compresseurs recommandés</button>
+                    </div>
+                    <div class="options" id="operatorOptions">
+                        <!-- Options dynamiques selon l'activité -->
+                    </div>
+                    <div class="navigation">
+                        <button class="btn btn-secondary" onclick="previousQuestion()">Précédent</button>
+                        <button class="btn btn-primary" onclick="showResults()" id="nextBtn2" disabled>Voir les résultats</button>
+                    </div>
+                </div>
+
+                <!-- Résultats -->
+                <div class="result" id="results">
+                    <div class="steps-indicator">
+                        <div class="step completed">
+                            <div class="step-circle"></div>
+                            <div class="step-text">Type d'activité</div>
+                        </div>
+                        <div class="step completed">
+                            <div class="step-circle"></div>
+                            <div class="step-text">Nombre d'opérateurs</div>
+                        </div>
+                        <div class="step active">
+                            <div class="step-circle">3</div>
+                            <div class="step-text">Recommandations</div>
+                        </div>
+                    </div>
+
+                    <h2>🎯 Compresseurs recommandés</h2>
+                    <div id="recommendedCompressors"></div>
+                    
+                    <div class="contact-info">
+                        <h3>Besoin d'aide pour votre choix ?</h3>
+                        <p><strong>📞 01 34 32 95 00</strong></p>
+                        <p>📧 contact@worthington-creyssensac.com</p>
+                        <p>🌐 www.worthington-creyssensac.com</p>
+                    </div>
+                    
+                    <button class="btn restart-btn" onclick="restart()">🔄 Recommencer la sélection</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Configuration des outillages pneumatiques
+        function getPneumaticTools() {
+            return [
+                { name: 'Clé à chocs 1/2"', consumption: 2.0, pressure: 8, factor: 0.2 },
+                { name: 'Clé à chocs 3/4"', consumption: 3.6, pressure: 8, factor: 0.2 },
+                { name: 'Clé à chocs 1"', consumption: 6.0, pressure: 8, factor: 0.2 },
+                { name: 'Clé à cliquets 1/2"', consumption: 2.3, pressure: 8, factor: 0.15 },
+                { name: 'Perceuse 10 mm', consumption: 2.7, pressure: 8, factor: 0.15 },
+                { name: 'Perceuse 13 mm', consumption: 3.3, pressure: 8, factor: 0.15 },
+                { name: 'Ponceuse à patin', consumption: 21.0, pressure: 8, factor: 0.7 },
+                { name: 'Meuleuse droite', consumption: 5.4, pressure: 8, factor: 0.3 },
+                { name: 'Burineur', consumption: 5.0, pressure: 8, factor: 0.25 },
+                { name: 'Scie', consumption: 1.8, pressure: 8, factor: 0.15 },
+                { name: 'Riveteuse', consumption: 0.8, pressure: 8, factor: 0.15 },
+                { name: 'Pistolet de peinture', consumption: 10.0, pressure: 3, factor: 0.5 },
+                { name: 'Poste de graissage VL', consumption: 1.5, pressure: 8, factor: 0.15 },
+                { name: 'Poste de graissage PL', consumption: 3.0, pressure: 12, factor: 0.2 },
+                { name: 'Soufflette', consumption: 1.6, pressure: 8, factor: 0.2 },
+                { name: 'Pistolet de gonflage VL', consumption: 1.5, pressure: 8, factor: 0.1 },
+                { name: 'Pistolet de gonflage PL', consumption: 1.5, pressure: 12, factor: 0.15 },
+                { name: 'Démonte pneus VL', consumption: 0.8, pressure: 8, factor: 0.15 },
+                { name: 'Démonte pneus PL', consumption: 1.6, pressure: 12, factor: 0.2 },
+                { name: 'Sableuse 4 mm', consumption: 15.0, pressure: 8, factor: 0.5 }
+            ];
+        }
+
+        // Fonction pour évaluer la compatibilité d'un outil avec un compresseur
+        function evaluateToolCompatibility(tool, compressor) {
+            const compressorPower = compressor.power;
+            const specsPressure = parseInt(compressor.specs['Pression']) || 10;
+            
+            // Vérification de la pression
+            if (tool.pressure > specsPressure) {
+                return 'not-compatible';
+            }
+            
+            // Calcul de la compatibilité basée sur la puissance (selon le tableau de couleurs)
+            let compatibility = 'not-compatible';
+            
+            if (compressorPower >= 2 && compressorPower < 3) {
+                const compatibleTools = ['Clé à chocs 1/2"', 'Clé à cliquets 1/2"', 'Scie', 'Riveteuse', 'Poste de graissage VL', 'Soufflette', 'Pistolet de gonflage VL', 'Pistolet de gonflage PL', 'Démonte pneus VL'];
+                const conditionalTools = ['Perceuse 10 mm'];
+                if (compatibleTools.includes(tool.name)) compatibility = 'compatible';
+                else if (conditionalTools.includes(tool.name)) compatibility = 'conditional';
+            } else if (compressorPower >= 3 && compressorPower < 4) {
+                const compatibleTools = ['Clé à chocs 1/2"', 'Clé à cliquets 1/2"', 'Perceuse 10 mm', 'Scie', 'Riveteuse', 'Poste de graissage VL', 'Soufflette', 'Pistolet de gonflage VL', 'Pistolet de gonflage PL', 'Démonte pneus VL'];
+                const conditionalTools = ['Clé à chocs 3/4"', 'Perceuse 13 mm', 'Meuleuse droite', 'Burineur'];
+                if (compatibleTools.includes(tool.name)) compatibility = 'compatible';
+                else if (conditionalTools.includes(tool.name)) compatibility = 'conditional';
+            } else if (compressorPower >= 4 && compressorPower < 5.5) {
+                const compatibleTools = ['Clé à chocs 1/2"', 'Clé à chocs 3/4"', 'Clé à cliquets 1/2"', 'Perceuse 10 mm', 'Perceuse 13 mm', 'Meuleuse droite', 'Burineur', 'Scie', 'Riveteuse', 'Poste de graissage VL', 'Poste de graissage PL', 'Soufflette', 'Pistolet de gonflage VL', 'Pistolet de gonflage PL', 'Démonte pneus VL', 'Démonte pneus PL'];
+                const conditionalTools = ['Clé à chocs 1"', 'Pistolet de peinture'];
+                if (compatibleTools.includes(tool.name)) compatibility = 'compatible';
+                else if (conditionalTools.includes(tool.name)) compatibility = 'conditional';
+            } else if (compressorPower >= 5.5 && compressorPower < 7.5) {
+                const compatibleTools = ['Clé à chocs 1/2"', 'Clé à chocs 3/4"', 'Clé à cliquets 1/2"', 'Perceuse 10 mm', 'Perceuse 13 mm', 'Meuleuse droite', 'Burineur', 'Scie', 'Riveteuse', 'Pistolet de peinture', 'Poste de graissage VL', 'Poste de graissage PL', 'Soufflette', 'Pistolet de gonflage VL', 'Pistolet de gonflage PL', 'Démonte pneus VL', 'Démonte pneus PL'];
+                const conditionalTools = ['Clé à chocs 1"'];
+                if (compatibleTools.includes(tool.name)) compatibility = 'compatible';
+                else if (conditionalTools.includes(tool.name)) compatibility = 'conditional';
+            } else if (compressorPower >= 7.5 && compressorPower < 10) {
+                const compatibleTools = ['Clé à chocs 1/2"', 'Clé à chocs 3/4"', 'Clé à chocs 1"', 'Clé à cliquets 1/2"', 'Perceuse 10 mm', 'Perceuse 13 mm', 'Meuleuse droite', 'Burineur', 'Scie', 'Riveteuse', 'Pistolet de peinture', 'Poste de graissage VL', 'Poste de graissage PL', 'Soufflette', 'Pistolet de gonflage VL', 'Pistolet de gonflage PL', 'Démonte pneus VL', 'Démonte pneus PL'];
+                const conditionalTools = ['Ponceuse à patin', 'Sableuse 4 mm'];
+                if (compatibleTools.includes(tool.name)) compatibility = 'compatible';
+                else if (conditionalTools.includes(tool.name)) compatibility = 'conditional';
+            } else if (compressorPower >= 10) {
+                const compatibleTools = ['Clé à chocs 1/2"', 'Clé à chocs 3/4"', 'Clé à chocs 1"', 'Clé à cliquets 1/2"', 'Perceuse 10 mm', 'Perceuse 13 mm', 'Ponceuse à patin', 'Meuleuse droite', 'Burineur', 'Scie', 'Riveteuse', 'Pistolet de peinture', 'Poste de graissage VL', 'Poste de graissage PL', 'Soufflette', 'Pistolet de gonflage VL', 'Pistolet de gonflage PL', 'Démonte pneus VL', 'Démonte pneus PL', 'Sableuse 4 mm'];
+                if (compatibleTools.includes(tool.name)) compatibility = 'compatible';
+            }
+            
+            return compatibility;
+        }
+
+        // Configuration des données des compresseurs
+        function getCompressorData() {
+            return {
+                'controle': {
+                    '1-2': [
+                        {
+                            name: 'DIXAIR DNXPRO 3200',
+                            type: 'Compresseur à pistons professionnel',
+                            specs: {
+                                'Cylindre': 'fonte',
+                                'Puissance': '3 ch',
+                                'Volume engendré': '23.6 m³/h',
+                                'Pression': '10 bar',
+                                'Réservoir': '200 litres',
+                                'Démarrage': 'direct'
+                            },
+                            advantages: [
+                                'Pression adaptée à votre besoin',
+                                'Entretien simplifié',
+                                'Technologie traditionnelle éprouvée',
+                                'Existe en mono et en triphasé',
+                                'Vitesse lente'
+                            ],
+                            usage: 'UTILISATION INTERMITTENTE',
+                            airQuality: 'QUALITÉ D\'AIR STANDARD',
+                            needs: 'Besoin : 10 à 20 m³/h - Pression : 8 à 10 bar',
+                            power: 3
+                        },
+                        {
+                            name: 'DECIBAIR SNXPRO 327',
+                            type: 'Compresseur à pistons professionnel insonorisé',
+                            specs: {
+                                'Puissance': '3 ch',
+                                'Volume engendré': '19.2 m³/h',
+                                'Pression': '10 bar',
+                                'Réservoir': '27 litres intégré',
+                                'Démarrage': 'direct'
+                            },
+                            advantages: [
+                                'Confort acoustique : 62 dB(A)',
+                                'Pack tout en 1 = encombrement réduit',
+                                'Entretien simplifié',
+                                'Technologie traditionnelle éprouvée',
+                                'Existe en mono et en triphasé'
+                            ],
+                            usage: 'UTILISATION INTERMITTENTE',
+                            airQuality: 'QUALITÉ D\'AIR STANDARD',
+                            needs: 'Besoin : 10 à 20 m³/h - Pression : 8 à 10 bar',
+                            power: 3
+                        }
+                    ]
+                },
+                'garage-vl': {
+                    '2-3': [
+                        {
+                            name: 'DIXAIR DNXPRO 3200',
+                            type: 'Compresseur à pistons professionnel',
+                            specs: {
+                                'Cylindre': 'fonte',
+                                'Puissance': '3 ch',
+                                'Volume engendré': '23.6 m³/h',
+                                'Pression': '10 bar',
+                                'Réservoir': '200 litres',
+                                'Démarrage': 'direct'
+                            },
+                            advantages: [
+                                'Pression adaptée à votre besoin',
+                                'Entretien simplifié',
+                                'Technologie traditionnelle éprouvée',
+                                'Existe en mono et en triphasé',
+                                'Vitesse lente'
+                            ],
+                            usage: 'UTILISATION INTERMITTENTE',
+                            airQuality: 'QUALITÉ D\'AIR STANDARD',
+                            needs: 'Besoin : 10 à 20 m³/h - Pression : 8 à 10 bar',
+                            power: 3
+                        },
+                        {
+                            name: 'DECIBAIR SNXPRO 327',
+                            type: 'Compresseur à pistons professionnel insonorisé',
+                            specs: {
+                                'Puissance': '3 ch',
+                                'Volume engendré': '19.2 m³/h',
+                                'Pression': '10 bar',
+                                'Réservoir': '27 litres intégré',
+                                'Démarrage': 'direct'
+                            },
+                            advantages: [
+                                'Confort acoustique : 62 dB(A)',
+                                'Pack tout en 1 = encombrement réduit',
+                                'Entretien simplifié',
+                                'Technologie traditionnelle éprouvée',
+                                'Existe en mono et en triphasé'
+                            ],
+                            usage: 'UTILISATION INTERMITTENTE',
+                            airQuality: 'QUALITÉ D\'AIR STANDARD',
+                            needs: 'Besoin : 10 à 20 m³/h - Pression : 8 à 10 bar',
+                            power: 3
+                        }
+                    ],
+                    '4-5': [
+                        {
+                            name: 'DIXAIR DNXPRO 7500',
+                            type: 'Compresseur à pistons professionnel',
+                            specs: {
+                                'Cylindre': 'fonte',
+                                'Puissance': '7.5 ch',
+                                'Volume engendré': '57 m³/h',
+                                'Pression': '11 bar',
+                                'Réservoir': '500 litres',
+                                'Démarrage': 'direct Option : étoile-triangle'
+                            },
+                            advantages: [
+                                'Qualité d\'air outillage pneumatique',
+                                'Entretien simplifié',
+                                'Technologie traditionnelle éprouvée',
+                                'Vitesse lente'
+                            ],
+                            usage: 'UTILISATION INTERMITTENTE',
+                            airQuality: 'QUALITÉ D\'AIR STANDARD',
+                            needs: 'Besoin : 25 à 30 m³/h - Pression : 8 à 10 bar',
+                            power: 7.5
+                        },
+                        {
+                            name: 'DECIBAIR SNXPRO 7500 T',
+                            type: 'Compresseur à pistons professionnel insonorisé',
+                            specs: {
+                                'Puissance': '7.5 ch',
+                                'Volume engendré': '50 m³/h',
+                                'Pression': '11 bar',
+                                'Réservoir': '500 litres',
+                                'Démarrage': 'direct Option : étoile-triangle'
+                            },
+                            advantages: [
+                                'Confort acoustique : 68 dB(A)',
+                                'Pack tout en 1 = encombrement réduit',
+                                'Qualité d\'air compatible peinture à l\'eau',
+                                'Entretien simplifié',
+                                'Technologie traditionnelle éprouvée',
+                                'Solution intégrée, compacte, prête à l\'utilisation'
+                            ],
+                            usage: 'UTILISATION INTERMITTENTE',
+                            airQuality: 'QUALITÉ D\'AIR SEC',
+                            needs: 'Besoin : 25 à 30 m³/h - Pression : 8 à 10 bar',
+                            power: 7.5
+                        }
+                    ]
+                },
+                'garage-vl-carrosserie': {
+                    '3-4': [
+                        {
+                            name: 'DIXAIR DNXPRO 10500',
+                            type: 'Compresseur à pistons professionnel',
+                            specs: {
+                                'Cylindre': 'fonte',
+                                'Puissance': '10 ch',
+                                'Volume engendré': '68 m³/h',
+                                'Pression': '11 bar',
+                                'Réservoir': '500 litres',
+                                'Démarrage': 'direct Option : étoile-triangle'
+                            },
+                            advantages: [
+                                'Qualité d\'air outillage pneumatique',
+                                'Entretien simplifié',
+                                'Technologie traditionnelle éprouvée',
+                                'Vitesse lente'
+                            ],
+                            usage: 'UTILISATION INTERMITTENTE',
+                            airQuality: 'QUALITÉ D\'AIR STANDARD',
+                            needs: 'Besoin : 30 à 40 m³/h - Pression : 8 à 10 bar',
+                            power: 10
+                        },
+                        {
+                            name: 'PIXAIR SXR 10500 A',
+                            type: 'Compresseur à pistons professionnel insonorisé',
+                            specs: {
+                                'Cylindre': 'fonte',
+                                'Puissance': '10 ch',
+                                'Volume engendré': '78 m³/h',
+                                'Pression': '10 bar',
+                                'Réservoir': '500 litres',
+                                'Démarrage': 'étoile-triangle'
+                            },
+                            advantages: [
+                                'Confort acoustique : 67 dB(A)',
+                                'Qualité d\'air outillage pneumatique',
+                                'Entretien simplifié',
+                                'Technologie traditionnelle éprouvée',
+                                'Vitesse ultra lente'
+                            ],
+                            usage: 'UTILISATION INTENSIVE',
+                            airQuality: 'QUALITÉ D\'AIR STANDARD',
+                            needs: 'Besoin : 30 à 40 m³/h - Pression : 8 à 10 bar',
+                            power: 10
+                        },
+                        {
+                            name: 'ROLLAIR 800B/500 TF',
+                            type: 'Compresseur à vis professionnel insonorisé',
+                            specs: {
+                                'Puissance': '7.5 ch',
+                                'Débit réel': '38 m³/h',
+                                'Pression': '10 bar',
+                                'Réservoir': '500 litres',
+                                'Démarrage': 'étoile-triangle'
+                            },
+                            advantages: [
+                                'Air toujours disponible',
+                                'Confort acoustique : 65 dB(A)',
+                                'Qualité d\'air compatible peinture à l\'eau',
+                                'Robustesse, longévité, fiabilité extrême',
+                                'Utilisation continue industrielle',
+                                'Solution intégrée, compacte, prête à l\'utilisation'
+                            ],
+                            usage: 'UTILISATION CONTINUE',
+                            airQuality: 'QUALITÉ D\'AIR SEC ET DÉSHUILÉ',
+                            needs: 'Besoin : 30 à 40 m³/h - Pression : 8 à 10 bar',
+                            power: 7.5
+                        }
+                    ],
+                    '5-6': [
+                        {
+                            name: 'ROLLAIR 1400B/500 TF',
+                            type: 'Compresseur à vis professionnel insonorisé',
+                            specs: {
+                                'Puissance': '15 ch',
+                                'Débit réel': '79 m³/h',
+                                'Pression': '10 bar',
+                                'Réservoir': '500 litres',
+                                'Démarrage': 'étoile-triangle'
+                            },
+                            advantages: [
+                                'Air toujours disponible',
+                                'Confort acoustique : 68 dB(A)',
+                                'Qualité d\'air compatible peinture à l\'eau',
+                                'Robustesse, longévité, fiabilité extrême',
+                                'Utilisation continue industrielle',
+                                'Solution intégrée, compacte, prête à l\'utilisation'
+                            ],
+                            usage: 'UTILISATION CONTINUE',
+                            airQuality: 'QUALITÉ D\'AIR SEC ET DÉSHUILÉ',
+                            needs: 'Besoin : 80 à 100 m³/h - Pression : 8 à 10 bar',
+                            power: 15
+                        }
+                    ],
+                    '7-10': [
+                        {
+                            name: 'ROLLAIR 1900B/500 TF',
+                            type: 'Compresseur à vis professionnel insonorisé',
+                            specs: {
+                                'Puissance': '20 ch',
+                                'Débit réel': '99 m³/h',
+                                'Pression': '10 bar',
+                                'Réservoir': '500 litres',
+                                'Démarrage': 'étoile-triangle'
+                            },
+                            advantages: [
+                                'Air toujours disponible',
+                                'Confort acoustique : 69 dB(A)',
+                                'Qualité d\'air compatible peinture à l\'eau',
+                                'Robustesse, longévité, fiabilité extrême',
+                                'Utilisation continue industrielle',
+                                'Solution intégrée, compacte, prête à l\'utilisation'
+                            ],
+                            usage: 'UTILISATION CONTINUE',
+                            airQuality: 'QUALITÉ D\'AIR SEC ET DÉSHUILÉ',
+                            needs: 'Besoin : 100 à 120 m³/h - Pression : 8 à 10 bar',
+                            power: 20
+                        }
+                    ]
+                },
+                'garage-pl': {
+                    '2-3': [
+                        {
+                            name: 'DIXAIR DNXPRO 7500B',
+                            type: 'Compresseur à pistons professionnel',
+                            specs: {
+                                'Cylindre': 'fonte',
+                                'Puissance': '7.5 ch',
+                                'Volume engendré': '46 m³/h',
+                                'Pression': '15 bar',
+                                'Réservoir': '500 litres',
+                                'Démarrage': 'direct Option : étoile-triangle'
+                            },
+                            advantages: [
+                                'Qualité d\'air outillage pneumatique',
+                                'Pression adaptée à votre besoin',
+                                'Entretien simplifié',
+                                'Technologie traditionnelle éprouvée',
+                                'Vitesse lente'
+                            ],
+                            usage: 'UTILISATION INTERMITTENTE',
+                            airQuality: 'QUALITÉ D\'AIR STANDARD',
+                            needs: 'Besoin : 25 à 30 m³/h - Pression : 12 bar',
+                            power: 7.5
+                        },
+                        {
+                            name: 'DECIBAIR SNXPRO 75B',
+                            type: 'Compresseur à pistons professionnel insonorisé avec réservoir vertical',
+                            specs: {
+                                'Puissance': '7.5 ch',
+                                'Volume engendré': '50 m³/h',
+                                'Pression': '12 bar',
+                                'Réservoir': '500 litres vertical',
+                                'Démarrage': 'direct Option : étoile-triangle'
+                            },
+                            advantages: [
+                                'Confort acoustique : 68 dB(A)',
+                                'Qualité d\'air compatible peinture à l\'eau',
+                                'Pression adaptée à votre besoin',
+                                'Entretien simplifié',
+                                'Technologie traditionnelle éprouvée'
+                            ],
+                            usage: 'UTILISATION INTERMITTENTE',
+                            airQuality: 'QUALITÉ D\'AIR SEC',
+                            needs: 'Besoin : 25 à 30 m³/h - Pression : 12 bar',
+                            power: 7.5
+                        }
+                    ]
+                },
+                'pneumaticiens-vl': {
+                    '1-2': [
+                        {
+                            name: 'DIXAIR DNXPRO 10500',
+                            type: 'Compresseur à pistons professionnel',
+                            specs: {
+                                'Cylindre': 'fonte',
+                                'Puissance': '10 ch',
+                                'Volume engendré': '68 m³/h',
+                                'Pression': '11 bar',
+                                'Réservoir': '500 litres',
+                                'Démarrage': 'direct Option : étoile-triangle'
+                            },
+                            advantages: [
+                                'Qualité d\'air outillage pneumatique',
+                                'Entretien simplifié',
+                                'Technologie traditionnelle éprouvée',
+                                'Vitesse lente'
+                            ],
+                            usage: 'UTILISATION INTERMITTENTE',
+                            airQuality: 'QUALITÉ D\'AIR STANDARD',
+                            needs: 'Besoin : 30 à 40 m³/h - Pression : 8 à 10 bar',
+                            power: 10
+                        },
+                        {
+                            name: 'ROLLAIR 800B/500 TF',
+                            type: 'Compresseur à vis professionnel insonorisé',
+                            specs: {
+                                'Puissance': '7.5 ch',
+                                'Débit réel': '38 m³/h',
+                                'Pression': '10 bar',
+                                'Réservoir': '500 litres',
+                                'Démarrage': 'étoile-triangle'
+                            },
+                            advantages: [
+                                'Air toujours disponible',
+                                'Confort acoustique : 65 dB(A)',
+                                'Qualité d\'air compatible peinture à l\'eau',
+                                'Robustesse, longévité, fiabilité extrême',
+                                'Utilisation continue industrielle',
+                                'Solution intégrée, compacte, prête à l\'utilisation'
+                            ],
+                            usage: 'UTILISATION CONTINUE',
+                            airQuality: 'QUALITÉ D\'AIR SEC ET DÉSHUILÉ',
+                            needs: 'Besoin : 30 à 40 m³/h - Pression : 12 à 15 bar',
+                            power: 7.5
+                        }
+                    ]
+                },
+                'pneumaticiens-pl': {
+                    '1-2': [
+                        {
+                            name: 'DIXAIR DNXPRO 10500B',
+                            type: 'Compresseur à pistons professionnel',
+                            specs: {
+                                'Cylindre': 'fonte',
+                                'Puissance': '10 ch',
+                                'Volume engendré': '57 m³/h',
+                                'Pression': '15 bar',
+                                'Réservoir': '500 litres',
+                                'Démarrage': 'direct Option : étoile-triangle'
+                            },
+                            advantages: [
+                                'Qualité d\'air outillage pneumatique',
+                                'Pression adaptée aux poids lourds',
+                                'Entretien simplifié',
+                                'Technologie traditionnelle éprouvée',
+                                'Vitesse lente'
+                            ],
+                            usage: 'UTILISATION INTERMITTENTE',
+                            airQuality: 'QUALITÉ D\'AIR STANDARD',
+                            needs: 'Besoin : 30 à 40 m³/h - Pression : 12 à 15 bar',
+                            power: 10
+                        },
+                        {
+                            name: 'ROLLAIR 750CT/500',
+                            type: 'Compresseur à vis professionnel insonorisé',
+                            specs: {
+                                'Puissance': '7.5 ch',
+                                'Débit réel': '30.2 m³/h',
+                                'Pression': '13 bar',
+                                'Réservoir': '500 litres',
+                                'Sécheur d\'air': 'intégré',
+                                'Démarrage': 'étoile-triangle'
+                            },
+                            advantages: [
+                                'Air toujours disponible',
+                                'Confort acoustique : 60 dB(A)',
+                                'Qualité d\'air compatible peinture à l\'eau',
+                                'Robustesse, longévité, fiabilité extrême',
+                                'Utilisation continue industrielle',
